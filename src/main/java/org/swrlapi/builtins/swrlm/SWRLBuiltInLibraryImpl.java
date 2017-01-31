@@ -52,7 +52,27 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
       return argument1 == java.lang.Math.sqrt(argument2);
     }
   }
+ 
+public boolean operatingProfitLoss(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
+  {
+    checkNumberOfArgumentsAtLeast(4, arguments.size());
 
+    double grossOperationMargin = getArgumentAsADouble(1, arguments);
+    double personelCostTotal = getArgumentAsADouble(2, arguments);
+    double depreciation = getArgumentAsADouble(3, arguments);
+    double miscellaneusCharges = getArgumentAsADouble(4, arguments);
+    
+    double operatingProfitLoss = grossOperationMargin - personelCostTotal - depreciation - miscellaneusCharges;
+    
+    if (isUnboundArgument(0, arguments)) {
+      arguments.get(0).asVariable().setBuiltInResult(createLiteralBuiltInArgument(operatingProfitLoss));
+      return true;
+    } else {
+      double argument1 = getArgumentAsADouble(0, arguments);
+      return argument1 == operatingProfitLoss;
+    }
+  }
+  
   /**
    * Returns true if the first argument is equal to the natural logarithm (base e) of the second argument. If the first
    * argument is unbound, bind it to the natural logarithm of the second argument.
